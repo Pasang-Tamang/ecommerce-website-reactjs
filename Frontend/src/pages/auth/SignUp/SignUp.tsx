@@ -70,7 +70,7 @@ const Login = () => {
         console.log("Password and Cofirm Password must match!!")
     }else{
       const response = await postData("/auth/register" , signUpUser)
-      console.log(response)
+      console.log(response.status)
       
     if(!response.status){
       console.log(response.message)

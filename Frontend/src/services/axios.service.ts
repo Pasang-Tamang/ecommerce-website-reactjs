@@ -6,7 +6,7 @@ export const postData = async(url:string, data:any) => {
    try {
     const response = await axios.post(`${config.SERVER_URL}${url}`, data )
     return response.data
-   } catch (error) {
-    console.log(error)
+   } catch (error:any) {
+    console.log(error.response.data)
    }
 }
