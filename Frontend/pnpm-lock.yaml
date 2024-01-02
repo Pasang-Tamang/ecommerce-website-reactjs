@@ -59,6 +59,9 @@ dependencies:
   styled-components:
     specifier: ^6.1.1
     version: 6.1.1(react-dom@18.2.0)(react@18.2.0)
+  toastify:
+    specifier: ^2.0.1
+    version: 2.0.1
   yup:
     specifier: ^1.3.3
     version: 1.3.3
@@ -2880,6 +2883,10 @@ packages:
     dependencies:
       is-number: 7.0.0
     dev: true
+
+  /toastify@2.0.1:
+    resolution: {integrity: sha512-Me/O93yAlwiHYwqX0su60Wv+X9ngzIT6nBLbNAFED095gMSjCBYKdu+faBxV6SE8CiQjUTBLrz8LwoXMtGz+yw==}
+    dev: false
 
   /toposort@2.0.2:
     resolution: {integrity: sha512-0a5EOkAUp8D4moMi2W8ZF8jcga7BgZd91O/yabJCFY8az+XSzeGyTKs0Aoo897iV1Nj6guFq8orWDS96z91oGg==}

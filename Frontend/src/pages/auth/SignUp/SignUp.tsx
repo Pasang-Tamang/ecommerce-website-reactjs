@@ -12,6 +12,7 @@ import { useState } from "react";
 
 import { postData } from "../../../services/axios.service";
 import { useNavigate } from "react-router-dom";
+import { successToast, warningToast } from "../../../services/toast.service";
 // import { config } from "../../../config";
 
 const Login = () => {
@@ -25,29 +26,27 @@ const Login = () => {
     event.preventDefault();
   };
 
-
   // const [name, setName] = useState<any>("")
   // const [email, setEmail] = useState<any>("")
   // const [password, setPassword] = useState<any>("")
   // const [confirmPassword, setConfirmPassword] = useState<any>("")
 
   const [signUpUser, setSignUpUser] = useState<any>({
-    name:"",
-    email:"",
-    password:"",
-    confirmPassword:""
-  })
-  
-  const navigate = useNavigate()
- 
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const handleChange = (e:any) => {
+  const navigate = useNavigate();
 
-    const {name, value} = e.target
-    setSignUpUser((prev:any) => ({
-      ...prev, [name]:value
-    }))
-   // console.log(signUpUser)
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setSignUpUser((prev: any) => ({
+      ...prev,
+      [name]: value,
+    }));
+    // console.log(signUpUser)
     // console.log(e.target.name, e.target.value)
 
     // if(e.target.name === "name"){
@@ -57,33 +56,26 @@ const Login = () => {
     // }if(e.target.name === "password"){
     //   setPassword(e.target.value)
     // }
+  };
 
+  const handleRegister = async (e: any) => {
+    e.preventDefault();
+    console.log(signUpUser);
 
-  
-  }
+    if (signUpUser.password !== signUpUser.confirmPassword) {
+      //console.log("Password and Cofirm Password must match!!")
+      warningToast("Password and Confirm Password must match!!");
+    } else {
+      const response = await postData("/auth/register", signUpUser);
+      console.log(response.status);
 
-  const handleRegister = async(e:any) => {
-    e.preventDefault()
-    console.log(signUpUser)
-
-    if(signUpUser.password !== signUpUser.confirmPassword){
-        console.log("Password and Cofirm Password must match!!")
-    }else{
-      const response = await postData("/auth/register" , signUpUser)
-      console.log(response.status)
-      
-    if(!response.status){
-      console.log(response.message)
-    }else{
-      console.log(response.message)
-      navigate('/')
+      if (response.status) {
+        //console.log(response.message)
+        navigate("/");
+        successToast(response.message);
+      }
     }
-    }
-
-   
-    
-  }
-
+  };
 
   // const handleRegister = async (e:any) => {
   // e.preventDefault()
@@ -91,7 +83,7 @@ const Login = () => {
   // console.log(name, email, password)
   // const data = {
   //       name,
-  //      email, 
+  //      email,
   //      password
   // }
 
@@ -99,7 +91,7 @@ const Login = () => {
   //   const response = await axios.post(`${config.SERVER_URL}/auth/register`, data)
 
   //   console.log(response)
-    
+
   // } catch (error) {
   //   console.log(error)
   // }
@@ -162,7 +154,6 @@ const Login = () => {
                 className=" text-white border-b border-gray-500 focus-within:border-white "
                 style={{ fontSize: "15px", fontFamily: "serif" }}
                 onChange={handleChange}
-
                 disableUnderline
                 endAdornment={
                   <InputAdornment position="end">
@@ -207,14 +198,14 @@ const Login = () => {
                   </InputAdornment>
                 }
               />
-            </FormControl> 
+            </FormControl>
             <FormControl sx={{ m: 1, width: "35ch" }} variant="standard">
               <InputLabel
                 htmlFor="standard-adornment-confirm-password"
                 className="text-white "
                 style={{ fontSize: "15px", fontFamily: "serif" }}
               >
-               Confirm Password
+                Confirm Password
               </InputLabel>
               <Input
                 id="standard-adornment-confirm-password"
@@ -232,7 +223,7 @@ const Login = () => {
                       onMouseDown={handleMouseDownPassword}
                       className="text-white"
                     >
-                     {showPassword ? (
+                      {showPassword ? (
                         <Visibility style={{ fontSize: "20px" }} />
                       ) : (
                         <VisibilityOff style={{ fontSize: "20px" }} />
@@ -240,10 +231,13 @@ const Login = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-              />            </FormControl> 
+              />{" "}
+            </FormControl>
 
-            <button className="text-white rounded-full bg-blue-500 hover:bg-blue-700 mt-5 w-80  p-2 font-serif"
-            onClick={handleRegister}>
+            <button
+              className="text-white rounded-full bg-blue-500 hover:bg-blue-700 mt-5 w-80  p-2 font-serif"
+              onClick={handleRegister}
+            >
               SIGNUP
             </button>
           </div>
