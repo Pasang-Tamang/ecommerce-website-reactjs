@@ -21,8 +21,16 @@ export const getData = async(url:string) => {
 }
 
 
-export const deleteData = async (url:string) => {
-  const response = await axios.delete(`${config.SERVER_URL}${url}`)
-  return response
+export const deleteData = async (url:string, id:number, jwt:any) => {
+  try {
+    const response = await axios.delete(`${config.SERVER_URL}${url}${id}`, {
+      headers:{
+        Authorization:`Bearer ${jwt}`
+      }
+    }  )
+    return response.data
+  } catch (error:any) {
+    errorToast(error.response.data.error)
+  }
   
 }

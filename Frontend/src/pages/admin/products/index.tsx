@@ -7,11 +7,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
-import { getData } from "../../../services/axios.service";
+import { deleteData, getData } from "../../../services/axios.service";
 import moment from "moment";
 import { IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useSelector } from "react-redux";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -39,24 +40,30 @@ export const Products = () => {
   }, []);
 
   const [products, setProducts] = useState<any>({});
+  const jwt = useSelector((state:any) => state.auth.jwt)
   const getProducts = async () => {
     const response = await getData("/product");
     setProducts(response.data);
     console.log(response.data.results);
   };
 
-  const deleteHandler = ( e:any, id:any) => {
+  const deleteHandler = async ( e:any, id:number) => {
     e.preventDefault()
     console.log("clicked", id)
 
-    const deleteProduct = products.results.filter((prod:any) => {
-      // if(prod.id === id){
-      //   console.log("matched")
-      // }
-      return  prod.id !== id
-    })
+    const deleteProduct = await deleteData("/product/", id, jwt)
+    console.log(deleteProduct)
 
-   console.log(deleteProduct)
+    
+
+  //   const deleteProduct = products.results.filter((prod:any) => {
+  //     // if(prod.id === id){
+  //     //   console.log("matched")
+  //     // }
+  //     return  prod.id !== id
+  //   })
+
+  //  console.log(deleteProduct)
 
   }
   return (
