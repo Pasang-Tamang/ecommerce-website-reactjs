@@ -9,6 +9,9 @@ import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import { getData } from "../../../services/axios.service";
 import moment from "moment";
+import { IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,6 +44,21 @@ export const Products = () => {
     setProducts(response.data);
     console.log(response.data.results);
   };
+
+  const deleteHandler = ( e:any, id:any) => {
+    e.preventDefault()
+    console.log("clicked", id)
+
+    const deleteProduct = products.results.filter((prod:any) => {
+      // if(prod.id === id){
+      //   console.log("matched")
+      // }
+      return  prod.id !== id
+    })
+
+   console.log(deleteProduct)
+
+  }
   return (
     <TableContainer component={Paper}>
       {products.status === "success" && (
@@ -55,6 +73,7 @@ export const Products = () => {
               <StyledTableCell align="left">Price</StyledTableCell>
               <StyledTableCell align="left">CountInStock</StyledTableCell>
               <StyledTableCell align="left">CreatedAt</StyledTableCell>
+              <StyledTableCell align="left">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -78,6 +97,15 @@ export const Products = () => {
                 </StyledTableCell>
                 <StyledTableCell align="left">
                   {moment(prod.createdAt).format("MMMM Do YYYY")}
+                </StyledTableCell>
+
+                <StyledTableCell align="left">
+                <EditIcon/>
+                  <IconButton aria-label="delete" size="large" onClick={(e) => deleteHandler(e, prod.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+
+                  
                 </StyledTableCell>
               </StyledTableRow>
             ))}

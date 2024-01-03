@@ -13,6 +13,11 @@ import { AuthInterface } from "../../../interface/auth.interface";
 import { postData } from "../../../services/axios.service";
 import { useNavigate } from "react-router-dom";
 import { successToast } from "../../../services/toast.service";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../slice/slice";
+
+
+
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -22,7 +27,12 @@ const Login = () => {
   ) => {
     event.preventDefault();
   };
+
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const value = useSelector((state:any) => state.auth)
+  console.log("value", value)
+
 
   const initialValues = {
     email: "",
@@ -43,9 +53,19 @@ const Login = () => {
     //console.log(response.status)
 
     if (response.status === "success") {
+      //console.log(response)
       //console.log("User Logged in Successfully")
       navigate("/products");
       successToast("User Logged in Successfully");
+      const data = {
+        jwt: response.token,
+        email:response.authData.email,
+        role:response.authData.role,
+
+      }
+
+      dispatch(login(data))
+
     }
   };
   return (

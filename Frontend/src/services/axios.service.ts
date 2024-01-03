@@ -19,3 +19,10 @@ export const getData = async(url:string) => {
   //console.log(data)
   return data
 }
+
+
+export const deleteData = async (url:string) => {
+  const response = await axios.delete(`${config.SERVER_URL}${url}`)
+  return response
+  
+}
