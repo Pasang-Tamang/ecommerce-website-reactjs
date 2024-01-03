@@ -5,6 +5,9 @@ import SignUp from './pages/auth/SignUp/SignUp'
 
 import {ToastContainer} from "react-toastify"
 import { Products } from "./pages/admin/products"
+import NoPageFound from "./pages/error/NoPageFound"
+import SecretRoute from "./routes/SecretRoute"
+
 
 function App() {
  
@@ -14,7 +17,11 @@ function App() {
     <Routes>
    <Route path='/' element={<Login/>}> </Route>
    <Route path='/signup' element={<SignUp/>}></Route>
-   <Route path='/products' element={<Products/>}/>
+
+  <Route path="" element={<SecretRoute/>}>
+  <Route path='/products' element={<Products/>}/>
+  </Route>
+   <Route path="*" element={<NoPageFound/>}/>
 
    
     </Routes>
